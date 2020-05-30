@@ -1,4 +1,10 @@
 
+//
+// Carlos Tojal, 2020
+// Hangman
+//
+
+// find special characters in the word
 int check_word(char *s) {
 	int i;
 	for(i = 0; s[i] != '\0'; i++) {
@@ -8,7 +14,7 @@ int check_word(char *s) {
 	return 1;
 }
 
-
+// convert word to uppercase
 void to_uppercase(char* s) {
 	int i;
 	for(i = 0; s[i] != '\0'; i++) {

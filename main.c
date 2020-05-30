@@ -1,4 +1,9 @@
 
+//
+// Carlos Tojal, 2020
+// Hangman
+//
+
 #include <stdio.h>
 #include "helpers.h"
 
