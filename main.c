@@ -11,6 +11,9 @@ int main() {
 
 	char word[20];
 	char guess_word[20];
+	char guessed_chars[27];
+	int wrong_guesses = 0;
+
 	printf("** Hangman **\n\n");
 	
 	// get the word
@@ -27,7 +30,23 @@ int main() {
 	do {
 		// draw the game
 		draw_game(guess_word, strlen(word));
+		char guessed_char;
+		do {
+			guessed_char = get_random_char();
+		} while(word_has_char(guessed_char, guess_word) || guessed_char == get_random_char() || word_has_char(guessed_char, guessed_chars));
+		printf("Does your word have the letter '%c'?\n", guessed_char);
+		char_concat(guessed_char, guessed_chars);
+		if(word_has_char(guessed_char, word)) {
+			put_char_in_word(guessed_char, guess_word, word);
+			printf("Guessed letter '%c'.\n", guessed_char);
+		} else {
+			printf("Oops. I failed.\n");
+			wrong_guesses++;
+			printf("I have failed %d times.\n", wrong_guesses);
+		}
+		printf("Thinking of other letter...\n");
 	} while(guess_word_len(guess_word, strlen(word)) != strlen(word));
+	draw_game(guess_word, strlen(word));
 
 	return 0;
 }
