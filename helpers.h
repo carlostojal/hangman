@@ -10,10 +10,13 @@
 
 // find special characters in the word
 int check_word(char *s) {
-	for(int i = 0; s[i] != '\0'; i++) {
+	int i;
+	for(i = 0; s[i] != '\0'; i++) {
 		if(s[i] < 65 || (s[i] > 90 && s[i] < 97) || s[i] > 122)
 			return 0;
 	}
+	if(i > 20)
+		return 0;
 	return 1;
 }
 
