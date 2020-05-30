@@ -27,6 +27,7 @@ void to_uppercase(char* s) {
 	}
 }
 
+// get random char to use to guess word
 char get_random_char() {
 	char c;
 	time_t t;
@@ -36,6 +37,7 @@ char get_random_char() {
 	} while(c < 65); // repeat while the character is not in A-Z
 }
 
+// draws the game
 void draw_game(char* word, int word_size) {
 	int i;
 	for(i = 0; i < word_size; i++) {
@@ -47,6 +49,7 @@ void draw_game(char* word, int word_size) {
 	printf("\n");
 }
 
+// gets the number of characters already guessed
 int guess_word_len(char* word, int word_size) {
 	int len = 0;
 	for(int i = 0; i < word_size; i++) {
