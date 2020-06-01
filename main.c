@@ -8,11 +8,14 @@
 #include "helpers.h"
 
 int main() {
-
+	
+	char chars[25];
 	char word[20];
 	char guess_word[20];
 	char guessed_chars[27];
 	int wrong_guesses = 0;
+
+	get_chars(chars); // fills char array with all chars
 
 	printf("** Hangman **\n\n");
 	
@@ -30,7 +33,7 @@ int main() {
 	do {
 		// draw the game
 		draw_game(guess_word, strlen(word));
-		printf("Getting a letter...\n");
+		printf("Getting letter...\n");
 		char guessed_char;
 		do {
 			guessed_char = get_random_char();

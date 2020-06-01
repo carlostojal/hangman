@@ -20,6 +20,9 @@ int check_word(char *s) {
 	return 1;
 }
 
+void get_chars(char* chars) {
+}
+
 // convert word to uppercase
 void to_uppercase(char* s) {
 	for(int i = 0; s[i] != '\0'; i++) {
@@ -37,12 +40,12 @@ void char_concat(char c, char* s) {
 
 // get random char to use to guess word
 char get_random_char() {
-	char c;
+	char chars[25];
 	time_t t;
 	srand((unsigned) time(&t));
-	do {
-		c = rand() % 91; // get random character from ASCII code 0 to 90
-	} while(c < 65); // repeat while the character is not in A-Z
+	for(int i = 65; i <= 90; i++) // fill array with all chars
+		chars[i - 65] = i;
+	return chars[rand() % 26]; // return random char from array
 }
 
 // draws the game
