@@ -8,6 +8,20 @@
 // Hangman
 //
 
+// main menu
+int menu() {
+	int opt = -1;
+	do {
+		printf("\n** HANGMAN **\n\n");
+		printf("1. Player vs Computer\n");
+		printf("2. Player vs Player\n");
+		printf("0. Exit\n\n");
+		printf("Option: ");
+		scanf("%d", &opt);
+	} while(opt < 0 || opt > 2);
+	return opt;
+}
+
 // find special characters in the word
 int check_word(char *s) {
 	int i;
