@@ -10,12 +10,26 @@
 
 // main menu
 int menu() {
-	int opt = -1;
+	int opt;
 	do {
 		printf("\n** HANGMAN **\n\n");
 		printf("1. Player vs Computer\n");
 		printf("2. Player vs Player\n");
 		printf("0. Exit\n\n");
+		printf("Option: ");
+		scanf("%d", &opt);
+	} while(opt < 0 || opt > 2);
+	return opt;
+}
+
+// online menu
+int online_menu() {
+	int opt;
+	do {
+		printf("\n** HANGMAN **\n\n");
+		printf("1. Host a game\n");
+		printf("2. Join a game\n");
+		printf("0. Back\n\n");
 		printf("Option: ");
 		scanf("%d", &opt);
 	} while(opt < 0 || opt > 2);
@@ -32,9 +46,6 @@ int check_word(char *s) {
 	if(i > 20)
 		return 0;
 	return 1;
-}
-
-void get_chars(char* chars) {
 }
 
 // convert word to uppercase
