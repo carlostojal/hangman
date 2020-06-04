@@ -138,9 +138,7 @@ int main() {
 		} else {
 			printf("Waiting for the word...\n");
 			char buffer[1024] = {0};
-			printf("buffer: %s\n", buffer);
 			valread = read(sock, buffer, 1024);
-			printf("buffer: %s\n", buffer);
 			strcpy(word, buffer);
 		}
 		
@@ -154,8 +152,6 @@ int main() {
 		do {
 			// draw the game
 			draw_game(guess_word, strlen(word));
-			printf("guess_word: %s\n", guess_word);
-			printf("guessed_chars: %s\n", guessed_chars);
 			if(online_mode == 0 || online_mode == 1)
 				printf("Getting letter...\n");
 			char guessed_char;
