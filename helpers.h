@@ -56,6 +56,13 @@ void to_uppercase(char* s) {
 	}
 }
 
+char char_to_uppercase(char c) {
+	if(c >= 97)
+		return c - 32;
+	else
+		return c;
+}
+
 // add char to end of string
 void char_concat(char c, char* s) {
 	int i;
@@ -98,7 +105,7 @@ int guess_word_len(char* word, int word_size) {
 // check if the word has a char
 int word_has_char(char c, char* word) {
 	for(int i = 0; i < strlen(word); i++) {
-		if(word[i] == c)
+		if(word[i] == c || word[i] == c - 32)
 			return 1;
 	}
 	return 0;

@@ -10,6 +10,7 @@
 #include <arpa/inet.h>
 #include <stdlib.h>
 #include <netinet/in.h>
+#include <errno.h>
 #include "helpers.h"
 
 #define PORT 2911
@@ -22,10 +23,10 @@ int main() {
 	char guessed_chars[27];
 	int wrong_guesses = 0;
 
-	char username[20];
-	char opponent[20];
+	char username[20] = "Player";
+	char opponent[20] = "Opponent";
 
-	int game_mode, online_mode;
+	int game_mode, online_mode = 0;
 
 	// networking variables
 	int server_fd, new_socket, valread;
@@ -93,6 +94,7 @@ int main() {
 					send(new_socket, username, strlen(username), 0);
 				} else {
 					// client mode
+					// get host IP address
 					char ip_address[30];
 					printf("\nHost IP address: ");
 					scanf("%s", ip_address);
@@ -117,35 +119,69 @@ int main() {
 						printf("\nConnection Failed \n"); 
 						return -1; 
 					} 
-					send(sock , username , strlen(username) , 0 ); 
-					valread = read(sock , buffer, 1024); 
+					send(sock, username, strlen(username), 0); // send username to the host
+					valread = read(sock , buffer, 1024); // get opponent username
 					strcpy(opponent, buffer);
 					printf("\nJoined %s's game.\n", opponent);
 				}
 			}
 		}
 		
-		// get the word
-		do {
-			printf("Enter your word: ");
-			scanf("%s", word);
-			to_uppercase(word);
-		} while(!check_word(word));
+		if(online_mode == 0 || online_mode == 1) {
+			// get the word
+			do {
+				printf("Enter your word: ");
+				scanf("%s", word);
+				to_uppercase(word);
+			} while(!check_word(word));
+			send(new_socket, word, strlen(word), 0); // give the client the word
+		} else {
+			printf("Waiting for the word...\n");
+			char buffer[1024] = {0};
+			printf("buffer: %s\n", buffer);
+			valread = read(sock, buffer, 1024);
+			printf("buffer: %s\n", buffer);
+			strcpy(word, buffer);
+		}
+		
 
 		// initialize empty guess word
 		for(int i = 0; i < strlen(word); i++)
 			guess_word[i] = ' ';
 		
+		guessed_chars[0] = '\0';
+		
 		do {
 			// draw the game
 			draw_game(guess_word, strlen(word));
-			printf("Getting letter...\n");
+			printf("guess_word: %s\n", guess_word);
+			printf("guessed_chars: %s\n", guessed_chars);
+			if(online_mode == 0 || online_mode == 1)
+				printf("Getting letter...\n");
 			char guessed_char;
 			do {
-				guessed_char = get_random_char();
+				if(online_mode == 0) { // offline mode
+					guessed_char = get_random_char(); 
+				} else if(online_mode == 1) { // host mode
+					valread = read(new_socket, buffer, 1024);
+					guessed_char = buffer[0];
+				} else { // client mode
+					printf("\nEnter a char to guess: ");
+					int scanf_value = 0;
+					do {
+						scanf_value = scanf("%c", &guessed_char);
+					} while(scanf_value > 1);
+					scanf("%c", &guessed_char);
+					char temp[2];
+					guessed_char = char_to_uppercase(guessed_char);
+					sprintf(temp, "%c", guessed_char);
+					send(sock, temp, strlen(temp), 0);
+				}
 			} while(word_has_char(guessed_char, guess_word) || word_has_char(guessed_char, guessed_chars));
 			printf("Does your word have the letter '%c'?\n", guessed_char);
-			char_concat(guessed_char, guessed_chars);
+			printf("%c\n", guessed_char);
+			if(word_has_char(guessed_char, guessed_chars) == 0)
+				sprintf(guessed_chars, "%s%c", guessed_chars, guessed_char); // add current char to the guessed chars list
 			if(word_has_char(guessed_char, word)) {
 				put_char_in_word(guessed_char, guess_word, word);
 				printf("Guessed letter '%c'.\n", guessed_char);
@@ -155,7 +191,7 @@ int main() {
 				printf("I have failed %d times.\n", wrong_guesses);
 			}
 		} while(guess_word_len(guess_word, strlen(word)) != strlen(word));
-		printf("\nI won! %d fails.\n", wrong_guesses);
+		printf("\n%s won! %d fails.\n", opponent, wrong_guesses);
 		draw_game(guess_word, strlen(word));
 	}
 
