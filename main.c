@@ -190,7 +190,7 @@ int main() {
 		if(online_mode == 0 || online_mode == 1)
 			strcpy(winner, opponent);
 		else
-			strcpy(winner, player);
+			strcpy(winner, username);
 		printf("\n%s won! %d fails.\n", winner, wrong_guesses);
 		draw_game(guess_word, strlen(word));
 	}
