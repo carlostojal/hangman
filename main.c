@@ -28,6 +28,13 @@ int main() {
 
 	int game_mode, online_mode = 0;
 
+	// game_mode == 1 -> player vs computer (offline)
+	// game_mode == 2 -> player vs player (online)
+
+	// online_mode == 0 -> offline
+	// online_mode == 1 -> host
+	// online_mode == 2 -> client
+
 	// networking variables
 	int server_fd, new_socket, valread;
 	int sock;
