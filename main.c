@@ -175,7 +175,6 @@ int main() {
 				}
 			} while(word_has_char(guessed_char, guess_word) || word_has_char(guessed_char, guessed_chars));
 			printf("Does your word have the letter '%c'?\n", guessed_char);
-			printf("%c\n", guessed_char);
 			if(word_has_char(guessed_char, guessed_chars) == 0)
 				sprintf(guessed_chars, "%s%c", guessed_chars, guessed_char); // add current char to the guessed chars list
 			if(word_has_char(guessed_char, word)) {
