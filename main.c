@@ -186,7 +186,12 @@ int main() {
 				printf("I have failed %d times.\n", wrong_guesses);
 			}
 		} while(guess_word_len(guess_word, strlen(word)) != strlen(word));
-		printf("\n%s won! %d fails.\n", opponent, wrong_guesses);
+		char winner[20];
+		if(online_mode == 0 || online_mode == 1)
+			strcpy(winner, opponent);
+		else
+			strcpy(winner, player);
+		printf("\n%s won! %d fails.\n", winner, wrong_guesses);
 		draw_game(guess_word, strlen(word));
 	}
 
